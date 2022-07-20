@@ -14,8 +14,6 @@ const password = encodeURIComponent(process.argv[2])
 
 const url = `mongodb+srv://fullstack:${password}@cluster0.pmkf0.mongodb.net/phonebookApp?retryWrites=true&w=majority`
 
-
-
 const personSchema = new mongoose.Schema({
   name: String,
   number: String,
