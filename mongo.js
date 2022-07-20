@@ -5,9 +5,16 @@ if (process.argv.length < 3) {
   process.exit(1)
 }
 
+if (process.argv.length === 4) {
+  console.log('Please provide the name and number as arguments: node mongo.js <password> yourName ###-###-####')
+  process.exit(1)
+}
+
 const password = encodeURIComponent(process.argv[2])
 
 const url = `mongodb+srv://fullstack:${password}@cluster0.pmkf0.mongodb.net/phonebookApp?retryWrites=true&w=majority`
+
+
 
 const personSchema = new mongoose.Schema({
   name: String,
@@ -16,7 +23,29 @@ const personSchema = new mongoose.Schema({
 
 const Person = mongoose.model('Person', personSchema)
 
-mongoose
+if (process.argv.length === 3) {
+  
+  mongoose
+  .connect(url)
+  .then((result) => {
+    console.log('connected')
+
+    return Person.find({})
+  })
+  .then(() => {
+    console.log('fetching all persons in phonebook')
+    result.forEach(note => {
+      console.log(note)
+    })
+    return mongoose.connection.close()
+  })
+  .catch((err) => console.log(err))
+
+}
+
+if (process.argv.length === 5) {
+  
+  mongoose
   .connect(url)
   .then((result) => {
     console.log('connected')
@@ -34,3 +63,5 @@ mongoose
     return mongoose.connection.close()
   })
   .catch((err) => console.log(err))
+
+}
