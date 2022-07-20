@@ -32,10 +32,10 @@ if (process.argv.length === 3) {
 
     return Person.find({})
   })
-  .then(() => {
+  .then((result) => {
     console.log('fetching all persons in phonebook')
-    result.forEach(note => {
-      console.log(note)
+    result.forEach(person => {
+      console.log(person)
     })
     return mongoose.connection.close()
   })
