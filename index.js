@@ -2,6 +2,20 @@ const { application } = require('express')
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
+const mongoose = require('mongoose')
+
+// DO NOT SAVE YOUR PASSWORD TO GITHUB!!
+const url = `mongodb+srv://fullstack:xnRwHnmnG8oLnLEF@cluster0.pmkf0.mongodb.net/phonebookApp?retryWrites=true&w=majority`
+
+mongoose.connect(url)
+
+const personSchema = new mongoose.Schema({
+  name: String,
+  number: String,
+})
+
+const Person = mongoose.model('Person', personSchema)
+//const Person = require('./models/person')
 
 app.use(express.json())
 app.use(express.static('build'))
@@ -36,7 +50,9 @@ let persons = [
 ]
 
 app.get('/api/persons', (request, response) => {
-  response.json(persons)
+  Person.find({}).then(persons => {
+    response.json(persons)
+  })
 })
 
 app.get('/info', (request, response) => {
