@@ -21,18 +21,23 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.get('/info', (request, response) => {
-
-  const info = {
-    content: persons.length,
-    date: new Date()
-  }
-
-  const infoPage = `
+  Person.find({}).then(persons => {
+    const info = {
+      content: persons.length,
+      date: new Date()
+    }
+    
+    const infoPage = `
           <p>Phonebook has info for ${info.content} people</p>
           <p>${info.date}</p>
           `
 
-  response.send(infoPage)
+    response.send(infoPage)
+  })
+
+  
+
+  
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
